@@ -1,0 +1,4 @@
+.DS_Store
+skills/*-workspace/
+.ruff_cache/
+__pycache__/
