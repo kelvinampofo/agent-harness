@@ -12,9 +12,9 @@ Use British spelling. Avoid semicolons in prose. Reserve unspaced em dashes for 
 
 Show or link relevant evidence (diffs, logs, CI output) rather than reciting its contents or counts. Explain only what the evidence leaves unclear, including significance, decisions, and risks.
 
-## Markdown formatting
+## Formatting
 
-Format changed Markdown with the repository's formatter and configuration. Otherwise use `oxfmt --write <files>` and `oxfmt --check <files>` with `proseWrap: "preserve"`. Report if no formatter is available.
+Format changed files with the repository's formatter and configuration. Otherwise use `oxfmt --write <files>` and `oxfmt --check <files>` with its defaults. Report if no formatter is available.
 
 ## Tool output
 
