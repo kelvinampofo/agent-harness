@@ -2,13 +2,15 @@
 
 ## Naming
 
-Use precise engineering terms and names that describe their purpose. Avoid vague words and unnecessary abbreviations.
+Use precise engineering terms and purposeful names. Use the same term for the same concept and the reader's vocabulary in user-facing text. Avoid vague words and unnecessary abbreviations.
 
 ## Writing
 
-Lead with the point. Omit needless words and the obvious. Use short sentences and familiar words. Avoid repetition and contrastive framing such as "not X, but Y". Explain unfamiliar jargon, use examples when helpful, and state uncertainty directly. Put prerequisites first.
+Lead with the point. Omit the obvious. Use active voice, short sentences, and familiar words. Avoid repetition and contrastive framing such as "not X, but Y". Explain unfamiliar jargon, use examples when helpful, and state uncertainty directly. Put prerequisites first. Place explanations beside the step or concept they clarify.
 
-Use British spelling. Preserve literal quotations and code syntax. Use the technical-writing skill for substantial engineering prose.
+Use British spelling. Avoid semicolons in prose. Reserve unspaced em dashes for abrupt interruptions or emphatic asides. Preserve literal quotations and code syntax. Use the technical-writing skill for substantial engineering prose.
+
+Show or link relevant evidence (diffs, logs, CI output) rather than reciting its contents or counts. Explain only what the evidence leaves unclear, including significance, decisions, and risks.
 
 ## Markdown formatting
 
@@ -20,17 +22,17 @@ Preserve errors and verification evidence. Exclude irrelevant generated files fr
 
 ## Responses
 
-When the user assigns a task, sets a goal, or steers ongoing work, acknowledge it with "On it, <brief mention of the task>." Use one short sentence and include the skill name when using one. Answer questions and discussion directly. Judge intent rather than sentence form: "Can you fix this?" assigns a task.
+Acknowledge tasks, goals, and steering with "On it, <brief mention of the task>." Include any skill name in that sentence. Answer questions and discussion directly. Judge intent: "Can you fix this?" assigns a task.
 
 Keep progress updates brief and omit process narration.
 
-When asked for a simpler restatement, return only the revised text. Preserve the meaning, important facts, and uncertainty.
+When asked for a simpler restatement, return only the revised text. Preserve meaning, facts, and uncertainty.
 
 ## Context and delivery
 
 Before compaction or handoff, preserve the objective, constraints, decisions and rationale, changed files, checks, and unresolved work. Omit superseded plans and routine exploration.
 
-Before delivery, check explicit requirements. Keep edits others (myself or another agent) made while you worked and explain how they affect your change. Reuse check results while their inputs are unchanged. Rerun affected checks after changes.
+Before delivery, check explicit requirements. Preserve others' edits and explain any effect on your change. Reuse checks while their inputs are unchanged, otherwise rerun affected checks.
 
 When corrected, find the general rule behind the correction. Fix other cases in scope and report those outside it.
 
@@ -42,7 +44,7 @@ Preserve useful surrounding material when making a targeted change. Save explora
 
 ## Code comments
 
-Prefer clear names, types, and structure. Add comments for information the code cannot express, such as a non-obvious reason, constraint, or public contract. Do not add operation-by-operation narration, edit announcements, or decorative section banners. When cleaning up comments, remove redundant or obsolete material after checking its claims and nearby code.
+Prefer clear names, types, and structure. Add comments for information the code cannot express, such as a non-obvious reason, constraint, or public contract. Avoid operation-by-operation narration, edit announcements, and decorative banners. Before removing redundant or obsolete comments, check their claims against nearby code.
 
 Keep legal headers, public API contracts, verified external constraints that code cannot express, and relevant issue or RFC links.
 
@@ -52,6 +54,8 @@ Keep explanatory comments short, lowercase, and without a full stop. Preserve di
 
 ## Commits and pushes
 
-Before proposing commits, follow the repository's commit conventions from its config, contributing guide, or recent history. Only when it has none, run `git config --path --get commit.template` and follow that file. Keep its contents private. Show proposed atomic commits for review before creating them.
+For change descriptions, default to explaining the change and reviewing my draft. Ask about missing reasoning or evidence. Write the description only when explicitly asked.
+
+Follow commit conventions in the repository's config, contributing guide, or recent history. If none exist, run `git config --path --get commit.template` and follow that file. Keep its contents private. Show proposed atomic commits and draft messages for review before committing.
 
 Push only when asked. After committing or pushing, report the hash and working-tree status.
