@@ -10,7 +10,7 @@ Requires Python 3.9+. From the repository root:
 scripts/setup.py
 ```
 
-Run `scripts/setup.py --help` for previews, checks, and backups.
+Run `scripts/setup.py --help` for skill selection, temporary unlinking, previews, checks, and backups.
 
 ## How it works
 

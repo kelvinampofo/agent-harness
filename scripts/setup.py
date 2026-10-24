@@ -16,15 +16,22 @@ def plan_links(
     if not skills:
         raise ValueError("No skills found")
 
+    selection = args.skill or args.unlink_skill
+    selected_skills = (
+        [path for path in skills if path.name in selection] if selection else skills
+    )
+
     skill_directories = [home / ".agents/skills", home / ".claude/skills"]
     links = [
         (root / "instructions/AGENTS.md", home / ".codex/AGENTS.md"),
         (root / "instructions/AGENTS.md", home / ".claude/CLAUDE.md"),
     ]
+    if selection:
+        links = []
     links.extend(
         (source, directory / source.name)
         for directory in skill_directories
-        for source in skills
+        for source in selected_skills
     )
 
     plan = []
@@ -56,6 +63,15 @@ def plan_links(
         ):
             raise ValueError(f"Override takes precedence: {override}")
 
+        if args.unlink_skill:
+            if destination.is_symlink() and destination.resolve() == source:
+                plan.append((None, destination, "linked"))
+            elif destination.exists() or destination.is_symlink():
+                raise ValueError(f"Refusing to unlink an entry not linked to {source}: {destination}")
+            else:
+                plan.append((None, destination, "ready"))
+            continue
+
         if destination.is_symlink() and destination.resolve() == source:
             status = "ready"
         elif destination.exists() or destination.is_symlink():
@@ -71,6 +87,9 @@ def plan_links(
         else:
             status = "missing"
         plan.append((source, destination, status))
+
+    if selection:
+        return plan
 
     for directory in skill_directories:
         directory = directory.resolve()
@@ -94,6 +113,8 @@ def plan_links(
 
 
 def main() -> int:
+    root = Path(__file__).resolve().parents[1]
+    skill_names = sorted(path.parent.name for path in (root / "skills").glob("*/SKILL.md"))
     parser = argparse.ArgumentParser(
         description=__doc__,
         allow_abbrev=False,
@@ -106,8 +127,13 @@ Existing entries require --backup-existing, which preserves them with a
 .pre-harness suffix. Existing backups and non-empty AGENTS.override.md
 files stop setup. Custom destinations are not supported.
 
+Use --skill NAME to select a skill. Repeat for multiple skills. Selected
+runs leave instructions and other skills unchanged. Use --unlink-skill NAME
+to temporarily remove a harness skill link. Both flags are repeatable.
+Full setup restores all skills. Exclusions are not saved.
+
 Rerun after adding or removing skills. Only links to deleted skills in
-this repository are removed; other skills and backups are kept.
+this repository are removed. Other skills and backups are kept.
 Start a new agent session after setup.
 
 Exit codes: 0 success, 1 links need attention, 2 invalid arguments, 3 failure.""",
@@ -124,9 +150,25 @@ Exit codes: 0 success, 1 links need attention, 2 invalid arguments, 3 failure.""
         action="store_true",
         help="preserve conflicting entries before linking",
     )
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument(
+        "--skill",
+        action="append",
+        choices=skill_names,
+        default=[],
+        metavar="NAME",
+        help="select a skill (repeatable). Available: %(choices)s",
+    )
+    selection.add_argument(
+        "--unlink-skill",
+        action="append",
+        choices=skill_names,
+        default=[],
+        metavar="NAME",
+        help="unlink a harness skill temporarily (repeatable)",
+    )
     args = parser.parse_args()
 
-    root = Path(__file__).resolve().parents[1]
     home = Path.home().resolve()
     plan = plan_links(root, home, args)
 
@@ -192,7 +234,7 @@ if __name__ == "__main__":
         sys.exit(main())
     except (OSError, RuntimeError, ValueError) as error:
         print(
-            f"error: {error}\nFix the error and rerun; completed links are kept.",
+            f"error: {error}\nFix the error and rerun. Completed links are kept.",
             file=sys.stderr,
         )
         sys.exit(3)
