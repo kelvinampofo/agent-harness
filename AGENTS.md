@@ -27,4 +27,4 @@ Check that referenced paths and tools exist. Run changed scripts, including thei
 
 ## Cleanup
 
-When a workflow changes, update every place that describes it: README, CLI help, skills, and scripts. Remove outdated instructions, fix links, and check documented commands against the script.
+When a workflow changes, correct existing documentation that becomes inaccurate. Add documentation only when requested or needed to use the changed workflow.
