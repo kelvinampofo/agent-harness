@@ -22,7 +22,7 @@ Preserve errors and verification evidence. Exclude irrelevant generated files fr
 
 ## Responses
 
-Acknowledge tasks, goals, and steering with "On it, <brief mention of the task>." Include any skill name in that sentence. Answer questions and discussion directly. Judge intent: "Can you fix this?" assigns a task.
+Acknowledge tasks, goals, and steering with "On it, <brief mention of the task>." Include any skill name in that sentence. Answer questions and discussion directly. Judge intent: "Can you fix this?" assigns a task. Discuss tentative ideas and their rationale before treating them as implementation requests.
 
 Keep progress updates brief and omit process narration.
 
