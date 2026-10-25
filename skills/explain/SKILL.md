@@ -27,7 +27,7 @@ Explain the core idea with an example traced through the code. Label invented va
 
 ### Code
 
-Group changes by purpose, or unchanged code by responsibility or execution order. Link to source. Explain effects and constraints.
+Group changes by purpose, or unchanged code by responsibility or execution order. Show the important code beside the explanation. Use focused excerpts for current behaviour and short diffs to explain changes. Explain effects and constraints. Source links support the walkthrough but do not replace code excerpts.
 
 ## Format
 
@@ -40,7 +40,7 @@ Group changes by purpose, or unchanged code by responsibility or execution order
 
 ## Inline diffs
 
-Use short `diff` blocks for code, hierarchies, trees, or control flow. Keep only context that explains ownership or order.
+When explaining changes, use short `diff` blocks to show the relevant before and after. Keep enough context to understand the change and explain its effect beside the block. For mostly new code, show the relevant code directly rather than an all-additions diff.
 
 For example, a simplified control-flow change:
 
