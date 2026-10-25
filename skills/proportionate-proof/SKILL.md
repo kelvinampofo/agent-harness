@@ -1,5 +1,5 @@
 ---
-name: principle-proportionate-proof
+name: proportionate-proof
 description: Use when asked whether a fix works, tests prove useful behaviour, a change is ready to ship, or an improvement has evidence. Includes "how do we know?" and bugs despite passing checks. Match verification to correctness, compatibility, performance, or agent-behaviour claims. Running a specified check or explaining test syntax does not need this workflow.
 ---
 

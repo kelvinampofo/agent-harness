@@ -1,5 +1,5 @@
 ---
-name: principle-minimal-change
+name: minimal-change
 description: Use for simplification, cleanup, refactoring, or KISS passes, including when work feels overengineered or the user says "this is doing too much". Choose the smallest complete change preserving behaviour and intent. Fully specified mechanical edits do not need this workflow.
 ---
 
