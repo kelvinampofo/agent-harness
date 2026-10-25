@@ -67,7 +67,9 @@ def plan_links(
             if destination.is_symlink() and destination.resolve() == source:
                 plan.append((None, destination, "linked"))
             elif destination.exists() or destination.is_symlink():
-                raise ValueError(f"Refusing to unlink an entry not linked to {source}: {destination}")
+                raise ValueError(
+                    f"Refusing to unlink an entry not linked to {source}: {destination}"
+                )
             else:
                 plan.append((None, destination, "ready"))
             continue
@@ -105,6 +107,7 @@ def plan_links(
                 continue
 
             target = Path(os.path.normpath(entry.parent / os.readlink(entry)))
+            target = target.parent.resolve() / target.name
             if target.parent == root / "skills" and target not in skills:
                 plan.append((None, entry, "orphaned"))
                 seen.add(entry)
@@ -114,41 +117,36 @@ def plan_links(
 
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
-    skill_names = sorted(path.parent.name for path in (root / "skills").glob("*/SKILL.md"))
+    skill_names = sorted(
+        path.parent.name for path in (root / "skills").glob("*/SKILL.md")
+    )
+    available_skills = "\n  ".join(skill_names)
     parser = argparse.ArgumentParser(
         description=__doc__,
         allow_abbrev=False,
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""Destinations:
-  ~/.codex/AGENTS.md, ~/.claude/CLAUDE.md
-  ~/.agents/skills, ~/.claude/skills
+        epilog=f"""Examples:
+  scripts/setup.py                  Install the harness
+  scripts/setup.py --dry-run        Preview changes
+  scripts/setup.py --skill explain  Install one skill
 
-Existing entries require --backup-existing, which preserves them with a
-.pre-harness suffix. Existing backups and non-empty AGENTS.override.md
-files stop setup. Custom destinations are not supported.
+Instructions:
+  instructions/AGENTS.md
 
-Use --skill NAME to select a skill. Repeat for multiple skills. Selected
-runs leave instructions and other skills unchanged. Use --unlink-skill NAME
-to temporarily remove a harness skill link. Both flags are repeatable.
-Full setup restores all skills. Exclusions are not saved.
-
-Rerun after adding or removing skills. Only links to deleted skills in
-this repository are removed. Other skills and backups are kept.
-Start a new agent session after setup.
-
-Exit codes: 0 success, 1 links need attention, 2 invalid arguments, 3 failure.""",
+Skills:
+  {available_skills}""",
     )
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument(
-        "--check", action="store_true", help="check links without changing files"
+        "--check", action="store_true", help="check installation without changing files"
     )
     modes.add_argument(
-        "--dry-run", action="store_true", help="preview setup without changing files"
+        "--dry-run", action="store_true", help="preview changes without applying them"
     )
     parser.add_argument(
         "--backup-existing",
         action="store_true",
-        help="preserve conflicting entries before linking",
+        help="back up existing files before replacing them",
     )
     selection = parser.add_mutually_exclusive_group()
     selection.add_argument(
@@ -157,7 +155,7 @@ Exit codes: 0 success, 1 links need attention, 2 invalid arguments, 3 failure.""
         choices=skill_names,
         default=[],
         metavar="NAME",
-        help="select a skill (repeatable). Available: %(choices)s",
+        help="install only the named skill (repeatable)",
     )
     selection.add_argument(
         "--unlink-skill",
@@ -165,7 +163,7 @@ Exit codes: 0 success, 1 links need attention, 2 invalid arguments, 3 failure.""
         choices=skill_names,
         default=[],
         metavar="NAME",
-        help="unlink a harness skill temporarily (repeatable)",
+        help="temporarily unlink a skill (repeatable)",
     )
     args = parser.parse_args()
 
@@ -216,11 +214,7 @@ Exit codes: 0 success, 1 links need attention, 2 invalid arguments, 3 failure.""
 
     needs_attention = any(status != "ready" for _, _, status in plan)
     if args.check:
-        print(
-            "\nSome links need attention."
-            if needs_attention
-            else "\nAll links are correct."
-        )
+        print("\nSetup needs attention." if needs_attention else "\nSetup is correct.")
     elif args.dry_run:
         print("\nDry run. No files changed.")
     else:
@@ -232,7 +226,7 @@ Exit codes: 0 success, 1 links need attention, 2 invalid arguments, 3 failure.""
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except (OSError, RuntimeError, ValueError) as error:
+    except (OSError, RuntimeError, TypeError, ValueError) as error:
         print(
             f"error: {error}\nFix the error and rerun. Completed links are kept.",
             file=sys.stderr,
