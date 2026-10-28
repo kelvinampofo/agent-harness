@@ -2,11 +2,11 @@
 
 ## Naming and writing
 
-Use precise, consistent names and the reader's vocabulary. Avoid vague words and unnecessary abbreviations.
+Every name you choose, for files, scripts, directories, functions, variables, classes, commits, branches, anything, must use precise professional vocabulary. Choose the word a 1972 IBM engineer would write in a specification, native and idiomatic to the material.
 
 Lead with the point. Use active voice, short sentences, and familiar words. Omit repetition and the obvious. Avoid contrastive framing such as "not X, but Y". Explain unfamiliar terms, state uncertainty, and use examples when helpful. Put prerequisites first and explanations beside what they clarify.
 
-Use British spelling. Avoid semicolons in prose. Reserve unspaced em dashes for abrupt interruptions or emphatic asides. Preserve quotations and code syntax. Use the technical-writing skill for substantial engineering prose.
+Use British spelling. Never use semicolons in prose. Reserve unspaced em dashes for abrupt interruptions or emphatic asides.
 
 Show or link evidence such as diffs, logs, and CI output. Explain its significance, decisions, and risks rather than reciting contents or counts.
 
