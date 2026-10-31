@@ -9,6 +9,14 @@ import sys
 from pathlib import Path
 
 
+def same_file(first: Path, second: Path) -> bool:
+    # path comparison misses aliases on case-insensitive file systems
+    try:
+        return first.samefile(second)
+    except OSError:
+        return False
+
+
 def plan_links(
     root: Path, home: Path, args: argparse.Namespace
 ) -> list[tuple[Path | None, Path, str]]:
@@ -64,7 +72,7 @@ def plan_links(
             raise ValueError(f"Override takes precedence: {override}")
 
         if args.unlink_skill:
-            if destination.is_symlink() and destination.resolve() == source:
+            if destination.is_symlink() and same_file(destination, source):
                 plan.append((None, destination, "linked"))
             elif destination.exists() or destination.is_symlink():
                 raise ValueError(
@@ -74,7 +82,7 @@ def plan_links(
                 plan.append((None, destination, "ready"))
             continue
 
-        if destination.is_symlink() and destination.resolve() == source:
+        if destination.is_symlink() and same_file(destination, source):
             status = "ready"
         elif destination.exists() or destination.is_symlink():
             status = "stale"
@@ -107,8 +115,9 @@ def plan_links(
                 continue
 
             target = Path(os.path.normpath(entry.parent / os.readlink(entry)))
-            target = target.parent.resolve() / target.name
-            if target.parent == root / "skills" and target not in skills:
+            if same_file(target.parent, root / "skills") and not any(
+                same_file(target, skill) for skill in skills
+            ):
                 plan.append((None, entry, "orphaned"))
                 seen.add(entry)
 
