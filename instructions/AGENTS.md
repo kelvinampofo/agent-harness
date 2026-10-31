@@ -10,6 +10,8 @@ For technical writing, prefer Google’s Technical Writing guidance and _The Ele
 
 Use British spelling. Never use semicolons in prose. Reserve unspaced em dashes for abrupt interruptions or emphatic asides.
 
+Reserve bold for UI labels.
+
 Show or link evidence such as diffs, logs, and CI output. Explain its significance, decisions, and risks rather than reciting contents or counts.
 
 ## Code comments
