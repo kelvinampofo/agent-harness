@@ -12,6 +12,7 @@ Read only what the task needs.
 
 - Commands and installation: run `scripts/harness.py --help` and `scripts/harness.py setup --help`.
 - Session review and harness improvement: [improve-harness](skills/improve-harness/SKILL.md).
+- Skill descriptions and scripts: read [Optimizing skill descriptions](https://agentskills.io/skill-creation/optimizing-descriptions) and [Using scripts in skills](https://agentskills.io/skill-creation/using-scripts).
 - Harness overview: [README](README.md#how-it-works).
 
 ## Organisation
