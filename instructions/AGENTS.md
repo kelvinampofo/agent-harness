@@ -8,6 +8,8 @@ Lead with the point. Use active voice, short sentences, and familiar words. Omit
 
 For technical writing, prefer Google’s Technical Writing guidance and _The Elements of Style_, unless the repository has an established writing style or I request another. Preserve technical precision.
 
+Use the technical-writing skill for editorial collaboration on my documents. I write to develop my thinking. Default to helping me revise my own work.
+
 Use British spelling. Never use semicolons in prose. Reserve unspaced em dashes for abrupt interruptions or emphatic asides.
 
 Reserve bold for UI labels.
