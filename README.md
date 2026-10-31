@@ -7,10 +7,10 @@ Shared instructions, skills, and tools for the agents I use. Updated when real s
 Requires Python 3.9+. From the repository root:
 
 ```sh
-scripts/setup.py
+scripts/harness.py setup
 ```
 
-Run `scripts/setup.py --help` for skill selection, temporary unlinking, previews, checks, and backups.
+Run `scripts/harness.py setup --help` for skill selection, temporary unlinking, previews, checks, and backups.
 
 ## How it works
 

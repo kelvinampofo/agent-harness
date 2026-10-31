@@ -10,7 +10,7 @@ Base each change on a real workflow or an observed failure.
 
 Read only what the task needs.
 
-- Installation: run `scripts/setup.py --help`.
+- Commands and installation: run `scripts/harness.py --help` and `scripts/harness.py setup --help`.
 - Session review and harness improvement: [improve-harness](skills/improve-harness/SKILL.md).
 - Harness overview: [README](README.md#how-it-works).
 
