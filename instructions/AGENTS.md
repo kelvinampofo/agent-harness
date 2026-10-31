@@ -35,6 +35,10 @@ Keep progress updates brief and omit process narration. For a simpler restatemen
 - When changed files include source code supported by Oxlint, run `npx oxlint --fix`, then run `npx oxfmt`. Before finishing, run `npx oxlint --deny-warnings --format=agent`.
 - For Markdown-only edits, run `npx oxfmt` and `git diff --check`. Skip Oxlint.
 
+## Type discipline
+
+When changed files include TypeScript, follow the type-discipline skill before finishing.
+
 ## Verification and delivery
 
 Check explicit requirements and preserve others' edits. Explain any effect their changes have on yours. Reuse checks while their inputs are unchanged, otherwise rerun affected checks.
