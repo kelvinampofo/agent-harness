@@ -44,20 +44,23 @@ def backup_path(destination: Path) -> Path:
     return destination.with_name(destination.name + ".pre-harness")
 
 
-def display_path(home: Path, path: Path) -> str:
+def display_path(path: Path) -> str:
+    home = Path.home().resolve()
     if home in path.parents:
         return f"~/{path.relative_to(home)}"
     return str(path)
 
 
-def instruction_links(home: Path) -> list[tuple[Path, Path]]:
-    return [(INSTRUCTIONS, home / agent.instruction_file) for agent in AGENTS]
+def instruction_links(destinations: Iterable[Path]) -> list[tuple[Path, Path]]:
+    return [(INSTRUCTIONS, destination) for destination in destinations]
 
 
-def skill_links(home: Path, skills: Iterable[Path]) -> list[tuple[Path, Path]]:
+def skill_links(
+    directories: Iterable[Path], skills: Iterable[Path]
+) -> list[tuple[Path, Path]]:
     return [
-        (skill, home / agent.skill_directory / skill.name)
-        for agent in AGENTS
+        (skill, directory / skill.name)
+        for directory in directories
         for skill in skills
     ]
 
@@ -67,8 +70,13 @@ def validate_links(links: list[tuple[Path, Path]]) -> list[tuple[Path, Path]]:
     seen = set()
     for source, destination in links:
         # resolve parent aliases without following the link being replaced
+        destination = destination.expanduser().absolute()
         destination = destination.parent.resolve() / destination.name
         if destination in seen:
+            if (source, destination) not in validated:
+                raise ValueError(
+                    f"Conflicting sources for destination: {destination}"
+                )
             continue
         seen.add(destination)
 
@@ -95,6 +103,9 @@ def validate_links(links: list[tuple[Path, Path]]) -> list[tuple[Path, Path]]:
             raise ValueError(f"Override takes precedence: {override}")
 
         validated.append((source, destination))
+    for destination in seen:
+        if any(parent in seen for parent in destination.parents):
+            raise ValueError(f"Overlapping destinations: {destination}")
     return validated
 
 
@@ -130,12 +141,12 @@ def plan_removals(links: list[tuple[Path, Path]]) -> list[Link]:
 
 
 def plan_orphans(
-    home: Path, skills: Iterable[Path], plan: list[Link]
+    directories: Iterable[Path], skills: Iterable[Path], plan: list[Link]
 ) -> list[Link]:
     orphans = []
     seen = {link.destination for link in plan}
-    for agent in AGENTS:
-        directory = (home / agent.skill_directory).resolve()
+    for directory in directories:
+        directory = directory.expanduser().resolve()
         if not directory.is_dir():
             continue
 
@@ -166,6 +177,13 @@ def require_replaceable(plan: list[Link], backup_existing: bool) -> None:
                 "Inspect it and rerun with --backup-existing"
             )
         backup = backup_path(link.destination)
+        if any(
+            backup == other.destination
+            or backup in other.destination.parents
+            or other.destination in backup.parents
+            for other in plan
+        ):
+            raise ValueError(f"Backup overlaps a destination: {backup}")
         if backup.exists() or backup.is_symlink():
             raise ValueError(f"Backup already exists: {backup}")
 
@@ -182,7 +200,7 @@ def preview_link(link: Link) -> str:
     return "would-link"
 
 
-def apply_link(home: Path, link: Link) -> str:
+def apply_link(link: Link) -> str:
     if link.status == "ready":
         return "ready"
     if link.source is None:
@@ -193,7 +211,7 @@ def apply_link(home: Path, link: Link) -> str:
     if link.status == "stale":
         link.destination.rename(backup_path(link.destination))
         print(
-            f"    backup: {display_path(home, link.destination)}.pre-harness"
+            f"    backup: {display_path(link.destination)}.pre-harness"
         )
     link.destination.symlink_to(link.source)
     return "linked"
@@ -218,8 +236,8 @@ def process_plan(
     links_by_owner: dict[str, list[Link]] = {}
     for link in plan:
         label = ", ".join(
-            agent.name for agent in owners[link.destination.parent]
-        )
+            agent.name for agent in owners.get(link.destination.parent, [])
+        ) or str(link.destination.parent)
         links_by_owner.setdefault(label, []).append(link)
 
     for label, links in links_by_owner.items():
@@ -229,7 +247,7 @@ def process_plan(
             if link.source == INSTRUCTIONS:
                 kind = "instructions"
             status = act(link)
-            path = display_path(home, link.destination)
+            path = display_path(link.destination)
             print(f"  {kind:12}  {status:12}  {path}")
 
 
@@ -237,15 +255,22 @@ def run_setup(args: argparse.Namespace, skills: dict[str, Path]) -> int:
     if not skills:
         raise ValueError("No skills found")
 
-    home = Path.home().resolve()
+    home = args.home.expanduser().resolve()
+    instructions = args.instructions or []
+    directories = args.skills or []
+    if not instructions and not directories:
+        instructions = [home / agent.instruction_file for agent in AGENTS]
+        directories = [home / agent.skill_directory for agent in AGENTS]
     selection = args.skill or args.unlink_skill
     if selection:
         requested = [
             path for name, path in skills.items() if name in selection
         ]
-        links = skill_links(home, requested)
+        links = skill_links(directories, requested)
     else:
-        links = instruction_links(home) + skill_links(home, skills.values())
+        links = instruction_links(instructions) + skill_links(
+            directories, skills.values()
+        )
     links = validate_links(links)
 
     if args.unlink_skill:
@@ -253,7 +278,7 @@ def run_setup(args: argparse.Namespace, skills: dict[str, Path]) -> int:
     else:
         plan = plan_installs(links)
         if not selection:
-            plan += plan_orphans(home, skills.values(), plan)
+            plan += plan_orphans(directories, skills.values(), plan)
 
     if args.check:
         process_plan(home, plan, inspect_link)
@@ -268,7 +293,7 @@ def run_setup(args: argparse.Namespace, skills: dict[str, Path]) -> int:
         process_plan(home, plan, preview_link)
         print("\nDry run. No files changed.")
     else:
-        process_plan(home, plan, lambda link: apply_link(home, link))
+        process_plan(home, plan, apply_link)
         print("\nStart a new agent session to use the harness.")
     return 0
 
@@ -286,12 +311,41 @@ def build_parser(skills: dict[str, Path]) -> argparse.ArgumentParser:
   scripts/harness.py setup                  Install the harness
   scripts/harness.py setup --dry-run        Preview changes
   scripts/harness.py setup --skill explain  Install one skill
+  scripts/harness.py setup --skills ~/.kiro/skills
+  scripts/harness.py setup --instructions /custom/AGENTS.md --skills /custom/skills
+
+Destinations:
+  Defaults: ~/.codex/AGENTS.md, ~/.claude/CLAUDE.md,
+            ~/.agents/skills, ~/.claude/skills
+  --home changes the root for defaults. Explicit --instructions or --skills
+  replace all defaults. Repeat either option for multiple destinations.
+  Pass the same destinations to --check, --dry-run and --unlink-skill.
 
 Exit status of --check:
   0  setup is correct
   1  setup needs attention
   3  inspection failed
 """,
+    )
+    setup.add_argument(
+        "--home",
+        type=Path,
+        default=Path.home(),
+        help="root for default destinations",
+    )
+    setup.add_argument(
+        "--instructions",
+        type=Path,
+        action="append",
+        metavar="PATH",
+        help="instruction file destination (repeatable)",
+    )
+    setup.add_argument(
+        "--skills",
+        type=Path,
+        action="append",
+        metavar="PATH",
+        help="skill directory destination (repeatable)",
     )
     modes = setup.add_mutually_exclusive_group()
     modes.add_argument(
@@ -336,6 +390,10 @@ def main() -> int:
     }
     parser = build_parser(skills)
     args = parser.parse_args()
+    if args.instructions and (args.skill or args.unlink_skill):
+        parser.error(
+            "--instructions cannot be combined with --skill or --unlink-skill"
+        )
     if args.unlink_skill and (args.check or args.backup_existing):
         parser.error(
             "--unlink-skill cannot be combined with --check or "

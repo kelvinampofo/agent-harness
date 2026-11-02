@@ -10,7 +10,7 @@ Requires Python 3.9+. From the repository root:
 scripts/harness.py setup
 ```
 
-Run `scripts/harness.py setup --help` for skill selection, temporary unlinking, previews, checks, and backups.
+Run `scripts/harness.py setup --help` for custom destinations, skill selection, temporary unlinking, previews, checks, and backups.
 
 ## How it works
 
