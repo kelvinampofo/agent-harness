@@ -65,8 +65,8 @@ Explain key relationships. Make diagrams match the code, and mark proposed chang
 
 ## Save and deliver
 
-Check claims, names, links, execution order, and examples against the code, including relevant branches and defaults. Check the prose against the user's writing instructions. Keep small explanations brief.
+Check claims, names, links, execution order, and examples against the code, including relevant branches and defaults. Keep small explanations brief.
 
-Save outside the repository under `~/explanations/`, creating it if needed. Prefix the filename with today's date, such as `2026-01-12-interaction-design.md`. Format only that file.
+Save outside the repository under `/Users/kelvinampofo/Developer/explanations/`, creating it if needed. Prefix the filename with today's date, such as `2026-01-12-interaction-design.md`. Format only that file.
 
 Open with `code <file>`. Report formatting or opening failures and link the file.
