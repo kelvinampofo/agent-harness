@@ -69,4 +69,4 @@ Check claims, names, links, execution order, and examples against the code, incl
 
 Save outside the repository under `/Users/kelvinampofo/Developer/explanations/`, creating it if needed. Prefix the filename with today's date, such as `2026-01-12-interaction-design.md`. Format only that file.
 
-Open with `code <file>`. Report formatting or opening failures and link the file.
+Open the file in a new VS Code window with `code --new-window <file>`. Plain `code <file>` reuses the last active window. Report formatting or opening failures and link the file.
