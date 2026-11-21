@@ -32,7 +32,7 @@ Group changes by purpose, or unchanged code by responsibility or execution order
 ## Format
 
 - Use one `#` title and consecutive heading levels. Add a table of contents only for long documents.
-- Use tables for comparisons and language-labelled code fences.
+- Use language-labelled code fences.
 - Link to concrete source files rather than directories, which may not open in Markdown viewers.
 - In saved Markdown, use local file paths relative to the document's final location. VS Code may interpret filesystem-absolute paths such as `/Users/...` as workspace-relative. Resolve every local target from the saved document's directory and verify that it is a file.
 - In chat, follow the host's file-link format. Do not copy chat-only absolute paths or `path:line` syntax into saved Markdown.
