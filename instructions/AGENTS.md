@@ -3,36 +3,39 @@
 ## Writing
 
 - Choose precise, professional names, idiomatic to the subject, as a 1972 IBM engineer would in a specification.
-- Lead with the point. Put prerequisites before the steps that depend on them. Use active voice, familiar words and British spelling. Introduce unfamiliar terms and references before relying on them. Omit repetition and obvious detail.
-- Put statements in positive form. State what the code does, who performs the action and why. Avoid contrastive constructions such as “X, not Y”, “not X but Y”, “rather than” and “instead of”. Compare alternatives only when I request a comparison. Preserve factual restrictions, failure conditions and uncertainty. Explain uncertainty. Apply this rule to replies, explanations, documentation and change descriptions.
-- Follow the repository’s writing style, otherwise Google’s Technical Writing guidance and _The Elements of Style_.
-- Reserve bold for UI labels. Avoid semicolons in prose. Use unspaced em dashes only for abrupt interruptions or emphatic asides.
-- Use short, complete sentences with one idea each. Use the same term for the same thing throughout. Group connected ideas in paragraphs and use bullets for separate items.
+- Lead with the point. Introduce terms and prerequisites before relying on them. Omit repetition and obvious detail.
+- Use active voice, familiar words, British spelling and short sentences with one idea each. Use one term for each thing.
+- Put statements in positive form. Avoid contrastive constructions such as “X, not Y”, “rather than” and “instead of”, except in comparisons I request. Preserve restrictions and failure conditions. State uncertainty and its cause.
+- Reserve bold for UI labels. Avoid semicolons in prose. Use unspaced em dashes only for abrupt asides.
+- Follow these rules, Google’s Technical Writing guidance and _The Elements of Style_. Where they leave a choice open, follow the repository’s writing style.
+- Match structure to the reader’s task. Explain with prose and a concrete example. Use numbered steps for sequences, bullets for independent items and tables for comparing values across shared columns. Show code in its original form beside the explanation.
+- Where you control the layout, make it legible at the intended reading width, including narrow screens.
+- Use technical-writing to revise my drafts. Ask about missing reasoning or evidence and explain your changes. Write a change description only when I ask.
 
-## Replies and progress updates
+## Replies
 
-- Give replies and progress updates enough context to stand alone without earlier updates, tool output or files.
-- Acknowledge tasks and steering with “On it, [brief task].” Name skills used. Answer questions directly. Act on requests to fix things, but discuss tentative ideas first. Keep updates brief. For simpler restatements, return only revised text.
-
-## Editorial collaboration
-
-- Use technical-writing to help me revise my drafts by default. Ask about missing reasoning or evidence.
-- Explain changes by default. Draft a separate change description only when I ask.
+- Acknowledge tasks and steering with “On it, [brief task].” Name skills used.
+- Make routine, reversible decisions yourself and report assumptions that affect the result. Bring me judgement calls and actions that need approval.
+- Fix what I ask you to fix. Discuss tentative ideas first.
+- Keep updates brief and self-contained. For simple restatements, return only the revised text.
 
 ## Code changes
 
-- Preserve others’ edits. Apply corrections throughout the scope of the task.
-- Keep comments for reasons, constraints and contracts code cannot express. Verify claims before removal. Preserve legal headers, public contracts, verified external constraints and relevant issue or RFC links. Keep explanatory comments short, lowercase and without a full stop, preserving directive and documentation syntax.
-- Check suppressions before removal. Retain those needed for verified tool limitations or style rules. Fix underlying bugs in scope and report others.
-- Exclude irrelevant generated files from searches.
+- Preserve others’ edits. Apply corrections throughout the task’s scope.
+- Reuse existing code and dependencies. Keep shared rules in one place. Remove what the change makes obsolete after checking its users.
+- Keep comments for reasons, constraints and contracts code cannot express. Write them short, lowercase and without a full stop.
+- Verify comments and suppressions before removing them. Fix underlying bugs in scope and report others.
+- Follow type-discipline for TypeScript. Exclude irrelevant generated files from searches.
 
 ## Verification and handoff
 
-- Reuse checks only while inputs remain unchanged.
-- For Oxlint-supported source changes, run `npx oxlint --fix`, then `npx oxfmt`, then `npx oxlint --deny-warnings --format=agent`. For Markdown-only changes, run `npx oxfmt` and `git diff --check`. Follow type-discipline for TypeScript changes.
-- Keep the full check output. Report the evidence and any material risks or limitations.
-- Before handoff or compaction, record the objective, constraints, decisions, changed files, checks and unresolved work.
+- Add tests for changed behaviour where they give useful coverage. For UI changes, exercise the interaction and inspect the rendered result.
+- Before handoff, run the repository’s verification command, otherwise the applicable formatting, lint, type checking, tests and build. Rerun a check after its inputs change.
+- For Oxlint-supported source changes, run `npx oxlint --fix`, then `npx oxfmt`, then `npx oxlint --deny-warnings --format=agent`. For Markdown-only changes, run `npx oxfmt` and `git diff --check`.
+- Fix failures in scope. Keep the full check output. Report the evidence, blocked checks, unresolved failures and material risks.
+- Stop processes and remove temporary files you created.
+- Before compaction, record the objective, constraints and unresolved work.
 
 ## Commits and pushes
 
-Follow repository commit conventions, otherwise read `git config --path --get commit.template` privately. Show proposed atomic commits and draft messages before committing. Push only when asked. Report the hash and working-tree status after either.
+Write commit messages from my template, which `git config --path --get commit.template` locates. Read it privately. Check `CONTRIBUTING.md` and follow the repository’s convention only when tooling depends on it, such as Conventional Commits for release automation. Show proposed atomic commits and draft messages before committing. Push only when asked. Report the hash and working-tree status after either.
