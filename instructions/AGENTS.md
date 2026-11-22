@@ -32,6 +32,7 @@
 ## Verification and handoff
 
 - Add tests for changed behaviour where they give useful coverage. For UI changes, exercise the interaction and inspect the rendered result.
+- Apply Goodhart’s law. Treat coverage, benchmark scores and passing checks as evidence of the behaviour they stand for. Write tests that would fail if the behaviour broke, and benchmark the workloads users run.
 - Before handoff, run the repository’s verification command, otherwise the applicable formatting, lint, type checking, tests and build. Rerun a check after its inputs change.
 - For Oxlint-supported source changes, run `npx oxlint --fix`, then `npx oxfmt`, then `npx oxlint --deny-warnings --format=agent`. For Markdown-only changes, run `npx oxfmt` and `git diff --check`.
 - Fix failures in scope. Keep the full check output. Report the evidence, blocked checks, unresolved failures and material risks.
