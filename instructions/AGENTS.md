@@ -9,6 +9,7 @@
 - Reserve bold for UI labels. Avoid semicolons in prose. Use unspaced em dashes only for abrupt asides.
 - Follow these rules, Google’s Technical Writing guidance and _The Elements of Style_. Where they leave a choice open, follow the repository’s writing style.
 - Match structure to the reader’s task. Explain with prose and a concrete example. Use numbered steps for sequences, bullets for independent items and tables for comparing values across shared columns. Show code in its original form beside the explanation.
+- Use a Mermaid diagram when a picture explains how something works better than words, such as how parts connect, how data flows or how state changes. Label it clearly and keep it in step with the text.
 - Where you control the layout, make it legible at the intended reading width, including narrow screens.
 - Use technical-writing to revise my drafts. Ask about missing reasoning or evidence and explain your changes. Write a change description only when I ask.
 
