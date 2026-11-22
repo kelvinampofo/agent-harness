@@ -23,9 +23,10 @@
 ## Code changes
 
 - Preserve others’ edits. Apply corrections throughout the task’s scope.
-- Reuse existing code and dependencies. Keep shared rules in one place. Remove what the change makes obsolete after checking its users.
+- Reuse existing code and dependencies. Keep shared rules in one place. Remove what the change makes obsolete.
+- Apply Chesterton’s fence principle. Before removing or bypassing code, comments, suppressions, configuration or rules, find out why they exist from their history, callers and tests. Remove them once that purpose no longer applies. Ask when it stays unclear.
 - Keep comments for reasons, constraints and contracts code cannot express. Write them short, lowercase and without a full stop.
-- Verify comments and suppressions before removing them. Fix underlying bugs in scope and report others.
+- Fix underlying bugs in scope and report others.
 - Follow type-discipline for TypeScript. Exclude irrelevant generated files from searches.
 
 ## Verification and handoff
