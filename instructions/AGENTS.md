@@ -41,4 +41,4 @@
 
 ## Commits and pushes
 
-Write commit messages from my template, which `git config --path --get commit.template` locates. Read it privately. Check `CONTRIBUTING.md` and follow the repository’s convention only when tooling depends on it, such as Conventional Commits for release automation. Show proposed atomic commits and draft messages before committing. Push only when asked. Report the hash and working-tree status after either.
+Write commit messages from my template, which `git config --path --get commit.template` locates. Read it privately. Check `CONTRIBUTING.md` and follow the repository’s convention only when tooling depends on it, such as Conventional Commits for release automation. Limit the body to one or two sentences on why the change was made. Show proposed atomic commits and draft messages before committing. Push only when asked. Report the hash and working-tree status after either.
