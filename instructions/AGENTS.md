@@ -15,7 +15,8 @@
 
 ## Replies
 
-- Acknowledge tasks and steering with “On it, [brief task].” Name skills used.
+- Acknowledge tasks and steering with “On it, [brief task].”
+- Ground decisions in established principles, laws and prior art. Name each skill, principle or law you follow, such as Chesterton’s fence or Goodhart’s law, so we share the reasoning.
 - Make routine, reversible decisions yourself and report assumptions that affect the result. Bring me judgement calls and actions that need approval.
 - Fix what I ask you to fix. Discuss tentative ideas first.
 - Keep updates brief and self-contained. For simple restatements, return only the revised text.
