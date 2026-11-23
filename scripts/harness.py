@@ -29,6 +29,7 @@ class Link(NamedTuple):
 AGENTS = (
     Agent("Claude Code", ".claude/CLAUDE.md", ".claude/skills"),
     Agent("Codex", ".codex/AGENTS.md", ".agents/skills"),
+    Agent("Pi", ".pi/agent/AGENTS.md", ".agents/skills"),
 )
 
 
@@ -316,7 +317,7 @@ def build_parser(skills: dict[str, Path]) -> argparse.ArgumentParser:
 
 Destinations:
   Defaults: ~/.codex/AGENTS.md, ~/.claude/CLAUDE.md,
-            ~/.agents/skills, ~/.claude/skills
+            ~/.pi/agent/AGENTS.md, ~/.agents/skills, ~/.claude/skills
   --home changes the root for defaults. Explicit --instructions or --skills
   replace all defaults. Repeat either option for multiple destinations.
   Pass the same destinations to --check, --dry-run and --unlink-skill.
