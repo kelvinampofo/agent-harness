@@ -4,8 +4,7 @@
 
 - Follow Google’s Technical Writing guidance and _The Elements of Style_.
 - Choose precise, professional names, idiomatic to the subject, as a 1972 IBM engineer would in a specification.
-- Lead with the point. Define terms before relying on them. Use one term for each thing.
-- Write short sentences in British spelling.
+- Lead with the point. Write in British spelling.
 - Avoid contrastive constructions such as “X, not Y”, “rather than” and “instead of”, except in comparisons I request. Preserve restrictions and failure conditions. State uncertainty and its cause.
 - Reserve bold for UI labels. Avoid semicolons in prose. Use unspaced em dashes only for abrupt asides.
 - Match structure to the reader’s task. Explain with prose and a concrete example. Use numbered steps for sequences, bullets for independent items and tables for comparing values across shared columns. Show code in its original form beside the explanation.
@@ -27,18 +26,15 @@
 - Apply Chesterton’s fence. Before removing or bypassing code, comments, suppressions, configuration or rules, learn their purpose from history, callers and tests. Ask when it stays unclear.
 - Keep comments for reasons, constraints and contracts code cannot express. Write them short, lowercase and without a full stop.
 - Fix underlying bugs and check failures in scope. Report others.
-- Follow type-discipline for TypeScript.
 
 ## Verification and handoff
 
-- Add tests for changed behaviour where they give useful coverage. For UI changes, exercise the interaction and inspect the rendered result.
-- Apply Goodhart’s law. Write tests that fail when the behaviour breaks.
+- Apply Goodhart’s law. Add tests for changed behaviour that fail when it breaks. For UI changes, exercise the interaction and inspect the rendered result.
 - Use proportionate-proof to match evidence to the claim. Benchmark performance claims with the workloads users run.
 - Before handoff, run the repository’s verification command, otherwise the applicable formatting, lint, type checking, tests and build. Rerun a check after its inputs change.
 - For Oxlint-supported source changes, run `npx oxlint --fix`, then `npx oxfmt`, then `npx oxlint --deny-warnings --format=agent`. For Markdown-only changes, run `npx oxfmt` and `git diff --check`.
-- Keep the full check output. Report the evidence, blocked checks, unresolved failures and material risks.
+- Report the evidence, blocked checks, unresolved failures and material risks.
 - Stop processes and remove temporary files you created.
-- Before compaction, record the objective, constraints and unresolved work.
 
 ## Commits and pushes
 
