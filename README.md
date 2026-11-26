@@ -1,6 +1,6 @@
 # Agent harness
 
-Shared instructions, skills, and tools for the agents I use. Updated when real sessions reveal something worth fixing.
+Instructions and skills shared across my coding agents.
 
 ## Usage
 
@@ -10,17 +10,15 @@ Requires Python 3.9+. From the repository root:
 scripts/harness.py setup
 ```
 
-Run `scripts/harness.py setup --help` for custom destinations, skill selection, temporary unlinking, previews, checks, and backups.
+See `scripts/harness.py setup --help` for options.
 
 ## How it works
 
-Setup creates symlinks from each agent's settings to the files in this repository. Edit a file here once to update every linked client. Keep this repository folder in place.
+Setup links each agent's settings to this repository, so one edit here reaches every agent. Keep the repository in place.
 
-- [Personal instructions](instructions/AGENTS.md) set how agents work in every project.
-- [Repository instructions](AGENTS.md) cover changes to the harness. Setup does not install them.
-- Skills provide task-specific knowledge and workflows, following the [Agent Skills specification](https://agentskills.io/specification).
-
-The agent client runs the agent and provides its tools and permissions.
+- [Personal instructions](instructions/AGENTS.md) apply to every project.
+- [Repository instructions](AGENTS.md) apply only to work on this harness.
+- [Skills](skills) hold task-specific workflows in the [Agent Skills specification](https://agentskills.io/specification).
 
 ## Licence
 
