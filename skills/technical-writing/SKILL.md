@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: Edit technical prose for structure, reasoning, and clarity while preserving the author's voice. Use when writing, editing, or reviewing technical documents, RFCs, READMEs, PR descriptions, or commit messages. Apply when rough notes need structure, an argument needs scrutiny, or prose needs clarity.
+description: Edit technical prose for structure, reasoning, and clarity while preserving the author's voice. Use when writing, editing, or reviewing technical documents, RFCs, READMEs, or commit messages. Use change-description for PR or MR descriptions. Apply when rough notes need structure, an argument needs scrutiny, or prose needs clarity.
 ---
 
 # Technical writing
